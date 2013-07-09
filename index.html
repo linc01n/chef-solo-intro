@@ -43,6 +43,10 @@
             Lincoln Lee
 
             [@linc01n](http://twitter.com/linc01n)
+
+            [http://chef-solo-intro.lincoln.hk](http://chef-solo-intro.lincoln.hk)
+
+            10 July 2013
           </script>
         </section>
 
@@ -75,7 +79,7 @@
 
         <section data-markdown>
           <script type="text/template">
-            ## Dependencies
+            ## Dependencies on local machine
             ```ruby
             # A chef-demo Gemfile
             source "https://rubygems.org"
@@ -85,6 +89,112 @@
             ```
 
           </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Initialize a chef directory
+            ```
+            $ knife solo init .
+            ```
+            <img class="fragment" src="img/chef_dir.jpg" alt="Chef Directory structure"></img>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Initialize librarian
+            ```
+            $ librarian-chef init
+            ```
+            <p class="fragment">It will create a Cheffile.</p>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Inside Cheffile
+
+            ```ruby
+            #!/usr/bin/env ruby
+            #^syntax detection
+
+            site 'http://community.opscode.com/api/v1'
+
+            # cookbook 'chef-client'
+
+            # cookbook 'apache2', '>= 1.0.0'
+
+            # cookbook 'rvm',
+            #   :git => 'https://github.com/fnichol/chef-rvm'
+
+            # cookbook 'postgresql',
+            #   :git => 'https://github.com/findsyou/cookbooks',
+            #   :ref => 'postgresql-improvements'
+
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Prepare the remote machine
+            ```bash
+            $ knife solo prepare root@192.168.5.164
+            ```
+            <p class="fragment">It will do 2 things:</p>
+
+            + <p class="fragment">SSH to the remote server and install chef</p>
+            + <p class="fragment">Create a json file in nodes dir</p>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Add cookbook in Cheffile
+
+            ```ruby
+            #!/usr/bin/env ruby
+            #^syntax detection
+
+            site 'http://community.opscode.com/api/v1'
+
+            cookbook "nginx"
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Demo for installing Nginx
+            Add <a href="https://github.com/opscode-cookbooks/nginx" target="_blank">Nginx</a> to runlist in nodes json
+
+            ###### In nodes/192.168.5.164.json:
+
+            ```json
+            {
+              "run_list":["recipe[nginx::source]"]
+            }
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Time to cook!
+
+            ```bash
+            $ knife solo cook root@192.168.5.164
+            ```
+          </script>
+        </section>
+
+        <section data-background="http://chef-solo-intro.lincoln.hk/img/cook1.jpg">
+
+        </section>
+
+        <section data-background="http://chef-solo-intro.lincoln.hk/img/cook2.jpg">
+
         </section>
 
       </div>
@@ -106,7 +216,7 @@
         rollingLinks: true,
 
         theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        transition: Reveal.getQueryHash().transition || 'zoom', // default/cube/page/concave/zoom/linear/fade/none
 
         // Optional libraries used to extend on reveal.js
         dependencies: [
