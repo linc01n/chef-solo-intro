@@ -149,6 +149,36 @@
           </script>
         </section>
 
+        <section data-markdown>
+          <script type="text/template">
+            ## Add cookbook in Cheffile
+
+            ```ruby
+            #!/usr/bin/env ruby
+            #^syntax detection
+
+            site 'http://community.opscode.com/api/v1'
+
+            cookbook "nginx"
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Demo for installing Nginx
+            Add <a href="https://github.com/opscode-cookbooks/nginx" target="_blank">Nginx</a> to runlist in nodes json
+
+            ###### In nodes/192.168.5.164.json:
+
+            ```json
+            {
+              "run_list":["recipe[nginx::source]"]
+            }
+            ```
+          </script>
+        </section>
+
       </div>
 
     </div>
